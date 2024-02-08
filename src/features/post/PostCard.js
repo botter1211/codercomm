@@ -21,7 +21,8 @@ import Menu from "@mui/material/Menu";
 import { useDispatch } from "react-redux";
 import deletePost from "./postSlice";
 // import editPost from "./postSlice";
-import PostUpdate from "./PostUpdate";
+// import PostUpdate from "./PostUpdate";
+import ModalPostUpdate from "./ModalPostUpdate";
 
 function PostCard({ post }) {
   const dispatch = useDispatch();
@@ -54,13 +55,8 @@ function PostCard({ post }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem
-        onClick={() => {
-          <PostUpdate post={post} />;
-        }}
-        sx={{ mx: 1 }}
-      >
-        Edit
+      <MenuItem sx={{ mx: 1 }}>
+        <ModalPostUpdate post={post} />
       </MenuItem>
 
       <MenuItem
