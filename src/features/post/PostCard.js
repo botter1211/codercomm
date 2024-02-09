@@ -8,6 +8,7 @@ import {
   Typography,
   CardHeader,
   IconButton,
+  Button,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
@@ -16,7 +17,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PostReaction from "./PostReaction";
 import CommentForm from "../comment/CommentForm";
 import CommentList from "../comment/CommentList";
-import MenuItem from "@mui/material/MenuItem";
+
 import Menu from "@mui/material/Menu";
 import { useDispatch } from "react-redux";
 import { deletePost } from "./postSlice";
@@ -55,16 +56,14 @@ function PostCard({ post }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem sx={{ mx: 1 }}>
-        <ModalPostUpdate post={post} />
-      </MenuItem>
+      <ModalPostUpdate post={post} />
 
-      <MenuItem
+      <Button
         onClick={() => dispatch(deletePost(post._id))}
-        sx={{ mx: 1 }}
+        sx={{ width: "100%" }}
       >
         Delete
-      </MenuItem>
+      </Button>
     </Menu>
   );
   return (

@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Box, Card, alpha, Stack } from "@mui/material";
+import { Box, Card, alpha, Stack, Typography } from "@mui/material";
 
 import { FormProvider, FTextField, FUploadImage } from "../../components/form";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,6 +52,9 @@ function PostUpdate({ post }) {
 
   return (
     <Card sx={{ p: 3 }}>
+      <Typography variant="h4" textAlign="center" mb={2}>
+        Edit Post
+      </Typography>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <FTextField

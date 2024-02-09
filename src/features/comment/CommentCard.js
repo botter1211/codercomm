@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Box, Paper, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { fDate } from "../../utils/formatTime";
 import CommentReaction from "./CommentReaction";
 import { useDispatch } from "react-redux";
@@ -28,10 +28,15 @@ function CommentCard({ comment }) {
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {comment.content}
         </Typography>
+
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            onClick={() => dispatch(deleteComment(comment._id, comment.post))}
+          >
+            Delete
+          </Button>
           <CommentReaction comment={comment} />
         </Box>
-        <Box onClick={() => dispatch(deleteComment(comment._id, comment.post))}>Delete</Box>
       </Paper>
     </Stack>
   );

@@ -24,7 +24,9 @@ export default function ModalPostUpdate({ post }) {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Edit</Button>
+      <Button onClick={handleOpen} sx={{ width: "100%" }}>
+        Edit
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
