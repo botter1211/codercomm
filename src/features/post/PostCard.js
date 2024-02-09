@@ -19,7 +19,7 @@ import CommentList from "../comment/CommentList";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useDispatch } from "react-redux";
-import deletePost from "./postSlice";
+import { deletePost } from "./postSlice";
 // import editPost from "./postSlice";
 // import PostUpdate from "./PostUpdate";
 import ModalPostUpdate from "./ModalPostUpdate";
@@ -60,7 +60,7 @@ function PostCard({ post }) {
       </MenuItem>
 
       <MenuItem
-        onClick={() => dispatch(deletePost({ postId: post._id }))}
+        onClick={() => dispatch(deletePost(post._id))}
         sx={{ mx: 1 }}
       >
         Delete
