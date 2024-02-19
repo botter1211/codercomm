@@ -59,7 +59,8 @@ const slice = createSlice({
       const newPost = action.payload;
       console.log(newPost);
 
-      state.postsById[newPost._id] = newPost;
+      state.postsById[newPost._id].content = newPost.content;
+      state.postsById[newPost._id].image = newPost.image;
     },
 
     sendPostReactionSuccess(state, action) {
@@ -130,7 +131,7 @@ export const editPost =
         content,
         image: imageUrl,
       });
-      dispatch(slice.actions.editPostSuccess(response.data));
+      dispatch(slice.actions.editPostSuccess({ ...response.data }));
       toast.success("Edit post successfully");
       dispatch(getCurrentUserProfile());
     } catch (error) {

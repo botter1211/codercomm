@@ -13,7 +13,7 @@ const yupSchema = Yup.object().shape({
   content: Yup.string().required("Content is required"),
 });
 
-function PostUpdate({ post }) {
+function PostUpdate({ post, handleClose }) {
   const { isLoading } = useSelector((state) => state.post);
   const defaultValues = {
     content: post?.content,
@@ -48,6 +48,7 @@ function PostUpdate({ post }) {
 
   const onSubmit = (data) => {
     dispatch(editPost({ postId: post._id, ...data }));
+    handleClose();
   };
 
   return (

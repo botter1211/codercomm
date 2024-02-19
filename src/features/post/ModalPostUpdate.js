@@ -34,7 +34,7 @@ export default function ModalPostUpdate({ post }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <PostUpdate post={post} />
+          <PostUpdate post={post} handleClose={handleClose} />
         </Box>
       </Modal>
     </div>
