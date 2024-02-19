@@ -12,7 +12,6 @@ const initialState = {
   commentsById: {},
 };
 
-
 const slice = createSlice({
   name: "comment",
   initialState,
@@ -57,9 +56,11 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = null;
       const { commentId, postId } = action.payload;
-      state.commentsByPost[postId] = state.commentsByPost[postId].filter(cId => commentId !== cId);
+      state.commentsByPost[postId] = state.commentsByPost[postId].filter(
+        (cId) => commentId !== cId
+      );
       state.totalCommentsByPost[postId] = state.totalCommentsByPost[postId] - 1;
-    }
+    },
   },
 });
 
@@ -67,75 +68,84 @@ export default slice.reducer;
 
 export const getComments =
   ({ postId, page = 1, limit = COMMENTS_PER_POST }) =>
-    async (dispatch) => {
-      dispatch(slice.actions.startLoading());
-      try {
-        const params = {
-          page: page,
-          limit: limit,
-        };
-        const response = await apiService.get(`/posts/${postId}/comments`, {
-          params,
-        });
-        dispatch(
-          slice.actions.getCommentsSuccess({
-            ...response.data,
-            postId,
-            page,
-          })
-        );
-      } catch (error) {
-        dispatch(slice.actions.hasError(error.message));
-        toast.error(error.message);
-      }
-    };
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const params = {
+        page: page,
+        limit: limit,
+      };
+      const response = await apiService.get(`/posts/${postId}/comments`, {
+        params,
+      });
+      dispatch(
+        slice.actions.getCommentsSuccess({
+          ...response.data,
+          postId,
+          page,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
 
 export const createComment =
   ({ postId, content }) =>
-    async (dispatch) => {
-      dispatch(slice.actions.startLoading());
-      try {
-        const response = await apiService.post("/comments", {
-          content,
-          postId,
-        });
-        dispatch(slice.actions.createCommentSuccess(response.data));
-        dispatch(getComments({ postId }));
-      } catch (error) {
-        dispatch(slice.actions.hasError(error.message));
-        toast.error(error.message);
-      }
-    };
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.post("/comments", {
+        content,
+        postId,
+      });
+      dispatch(slice.actions.createCommentSuccess(response.data));
+      dispatch(getComments({ postId }));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
 
 export const sendCommentReaction =
   ({ commentId, emoji }) =>
-    async (dispatch) => {
-      dispatch(slice.actions.startLoading());
-      try {
-        const response = await apiService.post(`/reactions`, {
-          targetType: "Comment",
-          targetId: commentId,
-          emoji,
-        });
-        dispatch(
-          slice.actions.sendCommentReactionSuccess({
-            commentId,
-            reactions: response.data,
-          })
-        );
-      } catch (error) {
-        dispatch(slice.actions.hasError(error.message));
-      }
-    };
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.post(`/reactions`, {
+        targetType: "Comment",
+        targetId: commentId,
+        emoji,
+      });
+      dispatch(
+        slice.actions.sendCommentReactionSuccess({
+          commentId,
+          reactions: response.data,
+        })
+      );
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+    }
+  };
 
 export const deleteComment = (commentId, postId) => async (dispatch) => {
   const confirmed = window.confirm("Do you want to remove this comment ?");
-  if (!confirmed) { return }
+  if (!confirmed) {
+    return;
+  }
   dispatch(slice.actions.startLoading());
   try {
     const response = await apiService.delete(`/comments/${commentId}`);
-    dispatch(slice.actions.deleteCommentSuccess({ ...response.data, commentId, postId }));
+    dispatch(
+      slice.actions.deleteCommentSuccess({
+        ...response.data,
+        commentId,
+        postId,
+      })
+    );
     toast.success("Comment Deleted");
+    dispatch(getComments({ postId }));
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
     toast.error(error.message);
